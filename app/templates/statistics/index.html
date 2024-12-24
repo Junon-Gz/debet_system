@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>数据统计</h1>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">总债务金额</h5>
+                    <h2 class="card-text">¥{{ "%.2f"|format(total_debt) }}</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">本月利息收入</h5>
+                    <h2 class="card-text">¥{{ "%.2f"|format(month_interest) }}</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">逾期债务数量</h5>
+                    <h2 class="card-text">{{ overdue_count }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <h3>月度利息统计</h3>
+        <canvas id="monthlyChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('monthlyChart');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ monthly_stats|map(attribute='month')|list|tojson }},
+        datasets: [{
+            label: '月度利息收入',
+            data: {{ monthly_stats|map(attribute='total')|list|tojson }},
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

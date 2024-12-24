@@ -1,0 +1,6 @@
+flask-apscheduler
+pandas
+xlsxwriter
+openpyxl 
+flask-wtf==1.2.1 
+flask-mail 

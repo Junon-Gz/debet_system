@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>债务管理系统</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">债务管理系统</a>
+        <div class="navbar-nav">
+            {% if current_user.is_authenticated %}
+            <a class="nav-item nav-link" href="{{ url_for('debt.index') }}">债务管理</a>
+            <a class="nav-item nav-link" href="{{ url_for('customer.index') }}">客户管理</a>
+            <a class="nav-item nav-link" href="{{ url_for('interest.index') }}">利息管理</a>
+            <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">退出</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">登录</a>
+            <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">注册</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    {% block content %}{% endblock %}
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html> 

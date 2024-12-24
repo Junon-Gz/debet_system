@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>利息管理</h1>
+    <a href="{{ url_for('interest.create') }}" class="btn btn-primary mb-3">新增利息记录</a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>债务ID</th>
+                <th>客户</th>
+                <th>金额</th>
+                <th>开始日期</th>
+                <th>结束日期</th>
+                <th>支付日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interest in interests %}
+            <tr>
+                <td>{{ interest.id }}</td>
+                <td>{{ interest.debt_id }}</td>
+                <td>{{ interest.debt.customer.name }}</td>
+                <td>¥{{ "%.2f"|format(interest.amount) }}</td>
+                <td>{{ interest.period_start.strftime('%Y-%m-%d') }}</td>
+                <td>{{ interest.period_end.strftime('%Y-%m-%d') }}</td>
+                <td>{{ interest.payment_date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    <a href="{{ url_for('interest.edit', id=interest.id) }}" class="btn btn-sm btn-info">编辑</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 
